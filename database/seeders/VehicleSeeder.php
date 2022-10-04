@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Models\Vehicle;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class VehicleSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run(): void
     {
-        $this->call(UserSeeder::class);
-        $this->call(VehicleSeeder::class);
+        Vehicle::factory()->count(100)->create();
     }
 }
