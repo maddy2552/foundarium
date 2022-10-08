@@ -37,7 +37,7 @@ class User extends Model
      *
      * @var array
      */
-    protected array $fillable = ['first_name', 'last_name', 'vehicle_id'];
+    protected $fillable = ['first_name', 'last_name', 'vehicle_id'];
 
     /**
      * Get the vehicle associated with the user.

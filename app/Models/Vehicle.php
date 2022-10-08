@@ -37,7 +37,7 @@ class Vehicle extends Model
      *
      * @var array
      */
-    protected array $fillable = ['name', 'vin'];
+    protected $fillable = ['name', 'vin'];
 
     /**
      * Get the user associated with the vehicle.
