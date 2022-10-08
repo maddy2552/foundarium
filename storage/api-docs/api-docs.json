@@ -1,0 +1,1255 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Foundarium Test Assignment API Documentation",
+        "description": "API documentation for Foundarium",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "kushnarev.k25@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api/v1",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user information",
+                "description": "Returns user data",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update existing user",
+                "description": "Updates user and returns its data. All fields required and must present, but 'vehicle_id' can be null",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrUpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehicleAlreadyHasUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "Deletes user data",
+                "operationId": "deleteUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityDeletedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Returns paginated users data",
+                "operationId": "getAllUsers",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page pagination parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserPaginatedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create new user",
+                "description": "Creates new user and returns its data. All fields required and must present, but 'vehicle_id' can be null",
+                "operationId": "createUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrUpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehicleAlreadyHasUserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles/{id}": {
+            "get": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Get vehicle information",
+                "description": "Returns vehicle data",
+                "operationId": "getVehicleById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Vehicle id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehicleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Update existing vehicle",
+                "description": "Updates vehicle and returns its data. All fields required and must present, but 'user_id' can be null",
+                "operationId": "updateVehicle",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Vehicle id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrUpdateVehicleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehicleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAlreadyHasVehicleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Delete vehicle",
+                "description": "Deletes vehicle data",
+                "operationId": "deleteVehicleById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Vehicle id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityDeletedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EntityNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles": {
+            "get": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Get all vehicles",
+                "description": "Returns paginated vehicles data",
+                "operationId": "getAllVehicles",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page pagination parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehiclePaginatedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Create new vehicle",
+                "description": "Creates new vehicle and returns its data. All fields required and must present, but 'user_id' can be null",
+                "operationId": "createVehicle",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrUpdateVehicleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VehicleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAlreadyHasVehicleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content. <br/> Contains 'message' key with first error message and 'errors' key object with keys - fields failed validation and arrays - value with errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableContentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id of the user",
+                        "type": "int64",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "first_name": {
+                        "title": "First name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Kirill"
+                    },
+                    "last_name": {
+                        "title": "Last name",
+                        "description": "Last name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Kushnaryov"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
+                }
+            },
+            "UserWithVehicle": {
+                "title": "UserWithVehicle",
+                "description": "User model with Vehicle",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id of the user",
+                        "type": "int64",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "first_name": {
+                        "title": "First name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Kirill"
+                    },
+                    "last_name": {
+                        "title": "Last name",
+                        "description": "Last name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Kushnaryov"
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/Vehicle"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserWithVehicle"
+                }
+            },
+            "Vehicle": {
+                "title": "Vehicle",
+                "description": "Vehicle model",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id of the vehicle",
+                        "type": "int64",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the vehicle",
+                        "type": "string",
+                        "format": "string",
+                        "example": "BMW"
+                    },
+                    "vin": {
+                        "title": "Vin",
+                        "description": "Vin number of the vehicle",
+                        "type": "string",
+                        "format": "string",
+                        "example": "4Y1SL65848Z411439"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Vehicle"
+                }
+            },
+            "VehicleWithUser": {
+                "title": "VehicleWithUser",
+                "description": "Vehicle model with User",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id of the vehicle",
+                        "type": "int64",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the vehicle",
+                        "type": "string",
+                        "format": "string",
+                        "example": "BMW"
+                    },
+                    "vin": {
+                        "title": "Vin",
+                        "description": "Vin number of the vehicle",
+                        "type": "string",
+                        "format": "string",
+                        "example": "4Y1SL65848Z411439"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2022-10-04T20:27:20.000000Z"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "VehicleWithUser"
+                }
+            },
+            "CreateOrUpdateUserRequest": {
+                "title": "CreateOrUpdateUserRequest",
+                "description": "Create/Update User request body data",
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "vehicle_id"
+                ],
+                "properties": {
+                    "first_name": {
+                        "title": "First name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255,
+                        "minLength": 2,
+                        "example": "Kirill"
+                    },
+                    "last_name": {
+                        "title": "Last name",
+                        "description": "Last name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255,
+                        "minLength": 2,
+                        "example": "Kushnaryov"
+                    },
+                    "vehicle_id": {
+                        "title": "Vehicle id",
+                        "description": "Vehicle id. Must exist in database. Can be null",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "1"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CreateOrUpdateUserRequest"
+                }
+            },
+            "CreateOrUpdateVehicleRequest": {
+                "title": "CreateOrUpdateVehicleRequest",
+                "description": "Create/Update Vehicle request body data",
+                "required": [
+                    "name",
+                    "vin",
+                    "user_id"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the vehicle",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255,
+                        "minLength": 2,
+                        "example": "BMW"
+                    },
+                    "vin": {
+                        "title": "Vin",
+                        "description": "VIN number of the vehicle. Unique",
+                        "type": "string",
+                        "format": "string",
+                        "maxLength": 255,
+                        "minLength": 2,
+                        "example": "4Y1SL65848Z411439"
+                    },
+                    "user_id": {
+                        "title": "User id",
+                        "description": "Vehicle id. Must exist in database. Can be null",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "1"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CreateOrUpdateVehicleRequest"
+                }
+            },
+            "EntityDeletedResponse": {
+                "title": "EntityDeletedResponse",
+                "description": "Entity deleted response",
+                "properties": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Entity deleted message",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Entity successfully deleted."
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EntityDeletedResponse"
+                }
+            },
+            "EntityNotFoundResponse": {
+                "title": "EntityNotFoundResponse",
+                "description": "Entity not found response",
+                "properties": {
+                    "error": {
+                        "title": "Error",
+                        "description": "Entity not found message",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Entity not found."
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EntityNotFoundResponse"
+                }
+            },
+            "InternalServerErrorResponse": {
+                "title": "InternalServerErrorResponse",
+                "description": "Internal server error reponse",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "description": "Internal Server Error message",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Server error"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "InternalServerErrorResponse"
+                }
+            },
+            "UnprocessableContentResponse": {
+                "title": "UnprocessableContentResponse",
+                "description": "Unprocessable content response",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "description": "Message describing error",
+                        "type": "string",
+                        "format": "string",
+                        "example": "The field must be an integer."
+                    },
+                    "errors": {
+                        "$ref": "#/components/schemas/ValidationErrors"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UnprocessableContentResponse"
+                }
+            },
+            "UserAlreadyHasVehicleResponse": {
+                "title": "UserAlreadyHasVehicleResponse",
+                "description": "User already has vehicle response",
+                "properties": {
+                    "error": {
+                        "title": "Error",
+                        "description": "Message describing error",
+                        "type": "string",
+                        "format": "string",
+                        "example": "The specified user already has a vehicle."
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAlreadyHasVehicleResponse"
+                }
+            },
+            "VehicleAlreadyHasUserResponse": {
+                "title": "VehicleAlreadyHasUserResponse",
+                "description": "Vehicle already has user response",
+                "properties": {
+                    "error": {
+                        "title": "Error",
+                        "description": "Message describing error",
+                        "type": "string",
+                        "format": "string",
+                        "example": "The specified vehicle already has a user."
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "VehicleAlreadyHasUserResponse"
+                }
+            },
+            "UserPaginatedResponse": {
+                "title": "UserPaginatedResponse",
+                "description": "User Paginated Response",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserWithVehicle"
+                        }
+                    },
+                    "links": {
+                        "$ref": "#/components/schemas/PaginationLinks"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserPaginatedResponse"
+                }
+            },
+            "UserResponse": {
+                "title": "UserResponse",
+                "description": "User Response",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/UserWithVehicle"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResponse"
+                }
+            },
+            "VehiclePaginatedResponse": {
+                "title": "VehiclePaginatedResponse",
+                "description": "Vehicle Paginated Response",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/VehicleWithUser"
+                        }
+                    },
+                    "links": {
+                        "$ref": "#/components/schemas/PaginationLinks"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "VehiclePaginatedResponse"
+                }
+            },
+            "VehicleResponse": {
+                "title": "VehicleResponse",
+                "description": "Vehicle Response",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/VehicleWithUser"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "VehicleResponse"
+                }
+            },
+            "PaginationLink": {
+                "title": "PaginationLink",
+                "description": "Pagination link object",
+                "properties": {
+                    "url": {
+                        "title": "Url",
+                        "description": "Page url",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users?page=1"
+                    },
+                    "label": {
+                        "title": "Url",
+                        "description": "Page label",
+                        "type": "string",
+                        "format": "string",
+                        "example": "1"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Determines is current page active",
+                        "type": "boolean",
+                        "format": "bool",
+                        "example": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PaginationLink"
+                }
+            },
+            "PaginationLinks": {
+                "title": "PaginationLinks",
+                "description": "Pagination links",
+                "properties": {
+                    "first": {
+                        "title": "First",
+                        "description": "Link for first page",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users?page=1"
+                    },
+                    "last": {
+                        "title": "Last",
+                        "description": "Link for last page",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users?page=17"
+                    },
+                    "prev": {
+                        "title": "Prev",
+                        "description": "Link for previous page",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users?page=2"
+                    },
+                    "next": {
+                        "title": "Next",
+                        "description": "Link for next page",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users?page=3"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PaginationLinks"
+                }
+            },
+            "PaginationMeta": {
+                "title": "PaginationMeta",
+                "description": "Pagination meta information",
+                "properties": {
+                    "current_page": {
+                        "title": "Current page",
+                        "description": "Current page",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "from": {
+                        "title": "From",
+                        "description": "From",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "1"
+                    },
+                    "last_page": {
+                        "title": "Last page",
+                        "description": "Last page",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "17"
+                    },
+                    "links": {
+                        "title": "Links",
+                        "description": "Pagination links objects",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaginationLink"
+                        }
+                    },
+                    "path": {
+                        "title": "Path",
+                        "description": "API path",
+                        "type": "string",
+                        "format": "string",
+                        "example": "http://localhost/api/v1/users"
+                    },
+                    "per_page": {
+                        "title": "Per page",
+                        "description": "Items per page",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "15"
+                    },
+                    "to": {
+                        "title": "To",
+                        "description": "To",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "45"
+                    },
+                    "total": {
+                        "title": "Total",
+                        "description": "Total count of entities",
+                        "type": "integer",
+                        "format": "int",
+                        "example": "200"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PaginationMeta"
+                }
+            },
+            "StringError": {
+                "description": "Validation error message",
+                "type": "string",
+                "format": "string",
+                "example": "The field must be an integer."
+            },
+            "ValidationErrors": {
+                "title": "ValidationErrors",
+                "description": "Validation errors",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Name of the input field failed validation with array of errors",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StringError"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ValidationErrors"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Users",
+            "description": "API Endpoints for User entity"
+        },
+        {
+            "name": "Vehicles",
+            "description": "API Endpoints for Vehicle entity"
+        }
+    ],
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}

@@ -15,7 +15,7 @@ class VehicleService
      */
     public function getVehiclesPaginated(): LengthAwarePaginator
     {
-        return Vehicle::paginate();
+        return Vehicle::with('user')->paginate();
     }
 
     /**
@@ -87,6 +87,7 @@ class VehicleService
     {
         $vehicle = $this->getVehicle($data['id'], ['user']);
 
+        /** @var User $user */
         $user = User::with('vehicle')->find($data['user_id']);
 
         if ($user?->vehicle && $user->vehicle->id !== $vehicle->id) {
@@ -99,8 +100,17 @@ class VehicleService
             $vehicle->load('user');
         }
 
+        if ($user && $vehicle->user && $user->id !== $vehicle->user->id) {
+            $vehicle->user->vehicle_id = null;
+            $user->vehicle_id = $vehicle->id;
 
-        if ($user) {
+            $vehicle->user->save();
+            $user->save();
+
+            $vehicle->load('user');
+        }
+
+        if ($user && !$vehicle->user) {
             $vehicle->user()->save($user);
             $vehicle->load('user');
         }

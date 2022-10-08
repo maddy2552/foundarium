@@ -33,7 +33,7 @@ class UserService
      */
     public function getUsersPaginated(): LengthAwarePaginator
     {
-        return User::paginate();
+        return User::with('vehicle')->paginate();
     }
 
     /**
@@ -75,11 +75,12 @@ class UserService
 
         $vehicle = Vehicle::with('user')->find($data['vehicle_id']);
 
-        if ($vehicle->user && $vehicle->user->id !== $user->id) {
+        if ($vehicle?->user && $vehicle->user->id !== $user->id) {
             throw new VehicleAlreadyHasUser();
         }
 
         $user->update($data);
+        $user->load('vehicle');
 
         return $user;
     }
