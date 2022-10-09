@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use F9Web\ApiResponseHelpers;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Services\VehicleService;
@@ -16,8 +15,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class VehicleController extends Controller
 {
-    use ApiResponseHelpers;
-
     /**
      * @param  VehicleService  $vehicleService
      */
