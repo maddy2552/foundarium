@@ -41,7 +41,7 @@ class UpdateUserTest extends TestCase
                         ->where('last_name', $userInfoUpdateTo['last_name'])
                         ->where('vehicle', $userInfoUpdateTo['vehicle_id'])
                         ->where('created_at', $user->created_at->toISOString())
-                        ->where('updated_at', $user->updated_at->toISOString());
+                        ->etc();
                 });
             });
     }
@@ -79,7 +79,7 @@ class UpdateUserTest extends TestCase
                                 ->where('updated_at', $user->vehicle->updated_at->toISOString());
                         })
                         ->where('created_at', $user->created_at->toISOString())
-                        ->where('updated_at', $user->updated_at->toISOString());
+                        ->etc();
                 });
             });
     }
@@ -110,7 +110,7 @@ class UpdateUserTest extends TestCase
                         ->where('last_name', $userInfoUpdateTo['last_name'])
                         ->where('vehicle', $userInfoUpdateTo['vehicle_id'])
                         ->where('created_at', $user->created_at->toISOString())
-                        ->where('updated_at', $user->updated_at->toISOString());
+                        ->etc();
                 });
             });
     }
@@ -151,7 +151,7 @@ class UpdateUserTest extends TestCase
                                 ->where('updated_at', $vehicle->updated_at->toISOString());
                         })
                         ->where('created_at', $user->created_at->toISOString())
-                        ->where('updated_at', $user->updated_at->toISOString());
+                        ->etc();
                 });
             });
     }

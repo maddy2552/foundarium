@@ -15,7 +15,7 @@ class DeleteUserTest extends TestCase
      */
     public function testDeleteNotExistingUser(): void
     {
-        $response = $this->getJson(route('api.users.delete', ['id' => 1]));
+        $response = $this->getJson(route('api.users.delete', ['id' => 0]));
         $response->assertStatus(404);
     }
 

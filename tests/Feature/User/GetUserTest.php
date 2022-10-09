@@ -75,7 +75,7 @@ class GetUserTest extends TestCase
      */
     public function testGetUserWithNotExistingId(): void
     {
-        $response = $this->getJson(route('api.users.get', ['id' => 1]));
+        $response = $this->getJson(route('api.users.get', ['id' => 0]));
 
         $response->assertStatus(404);
     }
